@@ -36,3 +36,8 @@ Generate random password
 {{- define "random_string" -}}
 {{- printf "%s" | randAlpha 8 -}}
 */}}
+
+{{- define "fullname" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}

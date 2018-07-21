@@ -12,6 +12,8 @@ harvesters:
 
 interfaceserver:
   replicaCount: 2
+  service:
+    externalPort: 8001
 
 scheduler:
   replicaCount: 2
@@ -31,14 +33,15 @@ service:
 
 ingress:
   enabled: true
-  annotations: {
-     kubernetes.io/ingress.class: nginx,
-     kubernetes.aio/tls-acme: "true"
-     }
-
+  annotations: {}
+     #kubernetes.io/ingress.class: nginx,
+     #     kubernetes.aio/tls-acme: "true"
+  tls:
+    enabled: false
+    secretName: tls-cert
   path: /
   hosts:
-    - crosskube.divvycloud.io
+    - divvy.priddle.co.nz
 
 storage:
   size: 30Gi

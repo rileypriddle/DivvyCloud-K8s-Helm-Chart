@@ -1,0 +1,32 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "divvycloud.name" . }}-ingress
+  annotations:
+  {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  labels:
+    app: {{ template "divvycloud.name" . }}-ingress
+    chart: {{ template "divvycloud.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  rules:
+  {{- range .Values.ingress.hosts }}
+  - http:
+      paths:
+      - backend:
+          serviceName: {{ template "divvycloud.name" . }}-interfaceserver
+          servicePort: {{ $.Values.interfaceserver.service.externalPort }}
+        path: /
+    host: {{ . | quote }}
+  {{- end }}
+{{- if .Values.ingress.tls }}
+  tls:
+  - secretName: {{ .Values.ingress.tls.secretName }}
+    hosts:
+{{ toYaml .Values.ingress.hosts | indent 4 }}
+{{- end -}}
+{{- end -}}
