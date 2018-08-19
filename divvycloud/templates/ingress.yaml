@@ -18,7 +18,7 @@ spec:
   - http:
       paths:
       - backend:
-          serviceName: {{ template "divvycloud.name" . }}-interfaceserver
+          serviceName: divvycloud-interfaceserver
           servicePort: {{ $.Values.interfaceserver.service.externalPort }}
         path: /
     host: {{ . | quote }}
