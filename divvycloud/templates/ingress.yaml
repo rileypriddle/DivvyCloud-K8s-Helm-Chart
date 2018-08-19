@@ -20,7 +20,7 @@ spec:
       - backend:
           serviceName: divvycloud-interfaceserver
           servicePort: {{ $.Values.interfaceserver.service.externalPort }}
-        path: /
+        path: /*
     host: {{ . | quote }}
   {{- end }}
 {{- if .Values.ingress.tls }}
